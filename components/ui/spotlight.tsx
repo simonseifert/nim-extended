@@ -1,78 +1,56 @@
 'use client'
-import React, { useRef, useState, useCallback, useEffect } from 'react'
-import { motion, useSpring, useTransform, SpringOptions } from 'motion/react'
-import { cn } from '@/lib/utils'
+import React, { useEffect, useState } from 'react'
 
-export type SpotlightProps = {
+interface SpotlightProps {
   className?: string
   size?: number
-  springOptions?: SpringOptions
 }
 
-export function Spotlight({
-  className,
-  size = 200,
-  springOptions = { bounce: 0 },
-}: SpotlightProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [isHovered, setIsHovered] = useState(false)
-  const [parentElement, setParentElement] = useState<HTMLElement | null>(null)
-
-  const mouseX = useSpring(0, springOptions)
-  const mouseY = useSpring(0, springOptions)
-
-  const spotlightLeft = useTransform(mouseX, (x) => `${x - size / 2}px`)
-  const spotlightTop = useTransform(mouseY, (y) => `${y - size / 2}px`)
+export function Spotlight({ className = '', size = 200 }: SpotlightProps) {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    if (containerRef.current) {
-      const parent = containerRef.current.parentElement
-      if (parent) {
-        parent.style.position = 'relative'
-        parent.style.overflow = 'hidden'
-        setParentElement(parent)
+    // Check if we're on a touch device
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    if (isTouchDevice) {
+      return // Don't show spotlight on touch devices
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
+      if (!isVisible) {
+        setIsVisible(true)
       }
     }
-  }, [])
 
-  const handleMouseMove = useCallback(
-    (event: MouseEvent) => {
-      if (!parentElement) return
-      const { left, top } = parentElement.getBoundingClientRect()
-      mouseX.set(event.clientX - left)
-      mouseY.set(event.clientY - top)
-    },
-    [mouseX, mouseY, parentElement],
-  )
+    const handleMouseLeave = () => {
+      setIsVisible(false)
+    }
 
-  useEffect(() => {
-    if (!parentElement) return
-
-    parentElement.addEventListener('mousemove', handleMouseMove)
-    parentElement.addEventListener('mouseenter', () => setIsHovered(true))
-    parentElement.addEventListener('mouseleave', () => setIsHovered(false))
+    document.addEventListener('mousemove', handleMouseMove, { passive: true })
+    document.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
-      parentElement.removeEventListener('mousemove', handleMouseMove)
-      parentElement.removeEventListener('mouseenter', () => setIsHovered(true))
-      parentElement.removeEventListener('mouseleave', () => setIsHovered(false))
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [parentElement, handleMouseMove])
+  }, [isVisible])
+
+  if (!isVisible) return null
 
   return (
-    <motion.div
-      ref={containerRef}
-      className={cn(
-        'pointer-events-none absolute rounded-full bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops),transparent_80%)] blur-xl transition-opacity duration-200',
-        'from-zinc-50 via-zinc-100 to-zinc-200',
-        isHovered ? 'opacity-100' : 'opacity-0',
-        className,
-      )}
+    <div
+      className={`pointer-events-none fixed inset-0 z-10 transition-opacity duration-300 ${className}`}
       style={{
-        width: size,
-        height: size,
-        left: spotlightLeft,
-        top: spotlightTop,
+        background: `radial-gradient(circle ${size}px at ${mousePosition.x}px ${mousePosition.y}px, 
+          rgba(255, 255, 255, 0.02) 0%, 
+          rgba(255, 255, 255, 0.015) 20%, 
+          rgba(59, 130, 246, 0.008) 40%, 
+          rgba(59, 130, 246, 0.004) 60%, 
+          rgba(59, 130, 246, 0.002) 80%, 
+          transparent 100%)`,
+        filter: 'blur(1px)',
       }}
     />
   )

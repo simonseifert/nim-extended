@@ -1,25 +1,54 @@
+// Project type — represents work in your portfolio.
 type Project = {
   name: string
   description: string
   link: string
-  video: string
   id: string
+  color: string
+  metrics?: string[]
+  role?: string
+  outcome?: string
 }
 
-type WorkExperience = {
-  company: string
-  title: string
-  start: string
-  end: string
-  link: string
-  id: string
-}
-
-type BlogPost = {
+// Service type — for the "How I Can Help" section.
+type Service = {
+  icon: string
   title: string
   description: string
-  link: string
-  uid: string
+  deliverables?: string[]
+  id: string
+}
+
+// Short bullets used in the Hero / WhatIDo section.
+type WhatIDo = {
+  title: string
+  id: string
+}
+
+// About section content.
+type AboutSection = {
+  title: string
+  subtitle: string
+  story: string[]
+}
+
+// Timeline entry — used by the Timeline section to render a journey row.
+type TimelineItem = {
+  id: string
+  title: string
+  company: string
+  year: string
+  description: string
+  achievement: string
+  color: string
+  icon: string
+}
+
+// Animated counter used in the Hero metrics row.
+type Metric = {
+  value: number
+  suffix: string
+  label: string
 }
 
 type SocialLink = {
@@ -29,97 +58,141 @@ type SocialLink = {
 
 export const PROJECTS: Project[] = [
   {
-    name: 'Motion Primitives Pro',
-    description:
-      'Advanced components and templates to craft beautiful websites.',
-    link: 'https://pro.motion-primitives.com/',
-    video:
-      'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/newProfileItem/d898be8a-7037-4c71-af0c-8997239b050d.mp4?_a=DATAdtAAZAA0',
-    id: 'project1',
+    name: 'Project One',
+    description: 'A short, punchy one-liner about what this project does.',
+    link: 'https://example.com',
+    id: 'project-one',
+    color: '#22c55e',
+    metrics: ['Headline result', 'Tech stack', 'Notable outcome'],
+    role: 'Your role here',
+    outcome: 'The impact this project had — keep it concrete.',
   },
   {
-    name: 'Motion Primitives',
-    description: 'UI kit to make beautiful, animated interfaces.',
-    link: 'https://motion-primitives.com/',
-    video:
-      'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/XSfIvT7BUWbPRXhrbLed/ee6871c9-8400-49d2-8be9-e32675eabf7e.mp4?_a=DATAdtAAZAA0',
-    id: 'project2',
+    name: 'Project Two',
+    description: 'Another project. Describe what it is and who it served.',
+    link: 'https://example.com',
+    id: 'project-two',
+    color: '#06b6d4',
+    metrics: ['Result one', 'Result two', 'Result three'],
+    role: 'Your role here',
+    outcome: 'A concrete win — revenue, users, launch.',
+  },
+  {
+    name: 'Project Three',
+    description: 'Replace these projects with your own.',
+    link: 'https://example.com',
+    id: 'project-three',
+    color: '#f59e0b',
+    metrics: ['Metric A', 'Metric B'],
+    role: 'Your role here',
+    outcome: 'Why this project mattered.',
   },
 ]
 
-export const WORK_EXPERIENCE: WorkExperience[] = [
+export const SERVICES: Service[] = [
   {
-    company: 'Reglazed Studio',
-    title: 'CEO',
-    start: '2024',
-    end: 'Present',
-    link: 'https://ibelick.com',
-    id: 'work1',
+    icon: '🚀',
+    title: 'Service One',
+    description: 'A short pitch for the kind of work you take on.',
+    deliverables: ['Deliverable one', 'Deliverable two', 'Deliverable three'],
+    id: 'service-one',
   },
   {
-    company: 'Freelance',
-    title: 'Design Engineer',
-    start: '2022',
-    end: '2024',
-    link: 'https://ibelick.com',
-    id: 'work2',
+    icon: '🧠',
+    title: 'Service Two',
+    description: 'Another way you can help — keep it specific.',
+    deliverables: ['Deliverable one', 'Deliverable two'],
+    id: 'service-two',
   },
   {
-    company: 'Freelance',
-    title: 'Front-end Developer',
-    start: '2017',
-    end: 'Present',
-    link: 'https://ibelick.com',
-    id: 'work3',
+    icon: '💻',
+    title: 'Service Three',
+    description: 'A third focus area, if you have one.',
+    deliverables: ['Deliverable one', 'Deliverable two'],
+    id: 'service-three',
+  },
+  {
+    icon: '🤝',
+    title: 'Service Four',
+    description: 'Round it out with anything else you offer.',
+    deliverables: ['Deliverable one', 'Deliverable two'],
+    id: 'service-four',
   },
 ]
 
-export const BLOG_POSTS: BlogPost[] = [
+export const WHAT_I_DO: WhatIDo[] = [
+  { title: 'A short line about what you do', id: 'item-1' },
+  { title: 'Another quick line — keep it punchy', id: 'item-2' },
+  { title: 'A current project or focus', id: 'item-3' },
+  { title: 'A side interest worth mentioning', id: 'item-4' },
+]
+
+export const ABOUT_CONTENT: AboutSection = {
+  title: 'About Me',
+  subtitle: 'A one-line summary of what you do and who you do it for.',
+  story: [
+    'Open with a hook — a moment, a project, a turning point that shows who you are.',
+    'Build on it. What did that lead to? What are you doing now and why does it matter?',
+    'Tell the reader what kinds of problems you love solving and the kind of work you want more of.',
+    'Close with what you’re building or pursuing today, and an invitation to get in touch.',
+  ],
+}
+
+export const TIMELINE_ITEMS: TimelineItem[] = [
   {
-    title: 'Exploring the Intersection of Design, AI, and Design Engineering',
-    description: 'How AI is changing the way we design',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
-    uid: 'blog-1',
+    id: 'role-one',
+    title: 'Your Role',
+    company: 'Company One',
+    year: '2022',
+    description: 'A short description of what you did and why it mattered.',
+    achievement: 'A standout outcome',
+    color: '#22c55e',
+    icon: '🌱',
   },
   {
-    title: 'Why I left my job to start my own company',
-    description:
-      'A deep dive into my decision to leave my job and start my own company',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
-    uid: 'blog-2',
+    id: 'role-two',
+    title: 'Your Role',
+    company: 'Company Two',
+    year: '2023',
+    description: 'Another role — describe the work and the impact.',
+    achievement: 'Another standout outcome',
+    color: '#f59e0b',
+    icon: '🎯',
   },
   {
-    title: 'What I learned from my first year of freelancing',
-    description:
-      'A look back at my first year of freelancing and what I learned',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
-    uid: 'blog-3',
+    id: 'role-three',
+    title: 'Your Role',
+    company: 'Company Three',
+    year: '2024 - Present',
+    description: 'What you are doing now. Tell the reader why it matters.',
+    achievement: 'A current win',
+    color: '#8b5cf6',
+    icon: '🚀',
   },
-  {
-    title: 'How to Export Metadata from MDX for Next.js SEO',
-    description: 'A guide on exporting metadata from MDX files to leverage Next.js SEO features.',
-    link: '/blog/example-mdx-metadata',
-    uid: 'blog-4',
-  },
+]
+
+// Optional booking URL for the Contact section's "Schedule a Call" button.
+// Leave empty to hide the button.
+export const CALENDLY_URL = ''
+
+export const METRICS: Metric[] = [
+  { value: 10, suffix: '+', label: 'Projects shipped' },
+  { value: 5, suffix: '', label: 'Years of experience' },
+  { value: 3, suffix: '', label: 'Companies founded' },
+  { value: 100, suffix: '%', label: 'Caffeinated' },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  {
-    label: 'Github',
-    link: 'https://github.com/ibelick',
-  },
-  {
-    label: 'Twitter',
-    link: 'https://twitter.com/ibelick',
-  },
-  {
-    label: 'LinkedIn',
-    link: 'https://www.linkedin.com/in/ibelick',
-  },
-  {
-    label: 'Instagram',
-    link: 'https://www.instagram.com/ibelick',
-  },
+  { label: 'GitHub', link: 'https://github.com/your-handle' },
+  { label: 'LinkedIn', link: 'https://www.linkedin.com/in/your-handle' },
+  { label: 'X', link: 'https://x.com/your-handle' },
 ]
 
-export const EMAIL = 'your@email.com'
+export const EMAIL = 'you@example.com'
+
+export const HERO_CONTENT = {
+  name: 'Your Name',
+  title: 'Your title — e.g. Designer & Engineer',
+  intro: `A two-or-three-sentence pitch for who you are and what you do. Make it specific. Mention the kind of problem you solve and who you solve it for. The reader should know within a few seconds whether they want to keep reading.`,
+  metrics: METRICS,
+}

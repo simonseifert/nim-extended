@@ -1,81 +1,100 @@
-# Nim - Installation Guide
+# Nim Extended — Installation Guide
 
 ## Prerequisites
 
 - Node.js 20.x or later
 - Git
 
-## Installation Steps
+## 1. Clone & install
 
-1. **Clone the repository**
+```bash
+git clone https://github.com/simonseifert/nim-extended.git
+cd nim-extended
+npm install
+npm run dev
+```
 
-   ```bash
-   git clone https://github.com/ibelick/nim.git
-   cd nim
-   ```
+Open [http://localhost:3000](http://localhost:3000).
 
-2. **Install dependencies**
+## 2. Customize your content
 
-   ```bash
-   npm install
-   ```
+Almost everything you'll edit lives in [`app/data.ts`](./app/data.ts):
 
-3. **Run the development server**
+```ts
+export const HERO_CONTENT = {
+  name: 'Your Name',
+  title: 'Your title',
+  intro: `A two-or-three-sentence pitch.`,
+  metrics: METRICS,
+}
 
-   ```bash
-   npm run dev
-   ```
+export const EMAIL = 'you@example.com'
+export const CALENDLY_URL = '' // leave empty to hide the "Schedule a Call" button
 
-4. **Update the template data**
+export const SOCIAL_LINKS = [
+  { label: 'GitHub',   link: 'https://github.com/your-handle' },
+  { label: 'LinkedIn', link: 'https://www.linkedin.com/in/your-handle' },
+]
 
-   Update the template data in the `app/data.ts` file.
+// PROJECTS, SERVICES, WHAT_I_DO, ABOUT_CONTENT, TIMELINE_ITEMS, METRICS — all here.
+```
 
-   ```ts
-   export const EMAIL = 'your@email.com'
+`HERO_CONTENT.name` and `HERO_CONTENT.title` flow into the header and footer automatically.
 
-   export const SOCIAL_LINKS = [
-     {
-       label: 'Github',
-       link: 'your-github-url',
-     },
-     // Add your social links
-   ]
+## 3. Pick the sections you want
 
-   ...
-   ```
+The default home page in [`app/page.tsx`](./app/page.tsx) renders **Hero → About → Services → Projects → Contact**. To swap, add `Timeline` or `WhatIDo`, or remove what you don't need:
 
-5. **Add your blog posts**
+```tsx
+import { Hero, About, Services, Projects, Timeline, WhatIDo, Contact } from '@/components/sections'
 
-Create a new .mdx file for each blog post inside the app/blog folder. For example:
-app/blog/your-article-slug/page.mdx.
+export default function Page() {
+  return (
+    <main className="space-y-32">
+      <Hero />
+      <About />
+      <WhatIDo />
+      <Services />
+      <Projects />
+      <Timeline />
+      <Contact />
+    </main>
+  )
+}
+```
 
-Example blog post structure in .mdx:
+## 4. Replace the cover image
+
+`public/cover.jpg` is the OpenGraph / README cover. Drop in a 1200x630 image with the same name.
+
+## 5. Add blog posts (optional)
+
+Create one `.mdx` file per post in `app/blog/<slug>/page.mdx`. Two example posts ship with the template — delete or replace them.
 
 ```mdx
 # Your Article Title
 
-Introduction
-
 Your content here...
-
-## Code Examples
-
-// Example code block here...
 ```
 
-**Note:** You can use all MDX features, including React components, in your blog posts.
+All MDX features (including React components) work.
 
-6. **Project Structure**
+## 6. Environment variables
 
-For a better understanding of the Next.js project structure, refer to the [Next.js](https://nextjs.org/docs/app/getting-started/project-structure) documentation.
+Set `NEXT_PUBLIC_SITE_URL` to your deployed origin so SEO metadata, sitemap, and `robots.ts` resolve correctly. Example:
 
-7. **Additional Features**
+```bash
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+```
 
-Want to add more animated components?
-Check out [Motion-Primitives](https://motion-primitives.com/) for additional animation components and templates. If you want something else DM on [X](https://x.com/Ibelick).
+## 7. Deploy
 
-8.  **Deployment**
+```bash
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsimonseifert%2Fnim-extended)
+```
 
-You can deploy your site to any hosting platform that supports Next.js. For the easiest deployment experience, consider using Vercel:
+Or any host that supports Next.js 16.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fibelick%2Fnim&env=NEXT_PUBLIC_SITE_URL&project-name=nim&repository-name=nim&redirect-url=https%3A%2F%2Ftwitter.com%2Fibelick&demo-title=Nim&demo-description=Nim%20is%20a%20free%20and%20open-source%20minimal%20personal%20website%20template%20built%20with%20Next.js%2015%2C%20React%2019%2C%20and%20Motion-Primitives.&demo-url=https%3A%2F%2Fnim.vercel.app&demo-image=https%3A%2F%2Fraw.githubusercontent.com%2Fibelick%2Fnim%2Frefs%2Fheads%2Fmain%2F.github%2Fassets%2Freadme.png&teamSlug=ibelick)
+## 8. Add more animated components
+
+Need more primitives? Check [Motion-Primitives](https://motion-primitives.com/) and drop them into `components/ui/`.

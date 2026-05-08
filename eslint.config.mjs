@@ -13,9 +13,9 @@ const eslintConfig = [
   ...compat.extends(
     "next/core-web-vitals",
     "next/typescript",
-    "plugin:prettier/recommended",
+    "prettier",
   ),
-  "plugin:mdx/recommended",
+  ...compat.plugins("mdx"),
 ];
 
 export default eslintConfig;

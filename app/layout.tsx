@@ -4,24 +4,27 @@ import './globals.css'
 import { Header } from './header'
 import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsightsWrapper } from '@/components/SpeedInsightsWrapper'
+import { ClientEffects } from './client-effects'
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#ffffff',
+  themeColor: '#09090b',
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nim-fawn.vercel.app/'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nim-extended.vercel.app/'),
   alternates: {
-    canonical: '/'
+    canonical: '/',
   },
   title: {
-    default: 'Nim - Personal website template',
-    template: '%s | Nim'
+    default: 'Your Name — Personal website',
+    template: '%s | Your Name',
   },
-  description:  'Nim is a free and open-source personal website template built with Next.js 15, React 19 and Motion-Primitives.',
-};
+  description: `A personal website template built on Nim — Next.js 16, React 19, Tailwind v4, and Motion-Primitives — extended with sections, animated UI primitives, and a structured content schema.`,
+}
 
 const geist = Geist({
   variable: '--font-geist',
@@ -47,15 +50,18 @@ export default function RootLayout({
           enableSystem={true}
           attribute="class"
           storageKey="theme"
-          defaultTheme="system"
+          defaultTheme="dark"
         >
-          <div className="flex min-h-screen w-full flex-col font-[family-name:var(--font-inter-tight)]">
-            <div className="relative mx-auto w-full max-w-screen-sm flex-1 px-4 pt-20">
+          <ClientEffects />
+          <div className="flex min-h-screen w-full flex-col">
+            <div className="relative mx-auto w-full max-w-screen-lg flex-1 px-6 pt-20">
               <Header />
               {children}
               <Footer />
             </div>
           </div>
+          <SpeedInsightsWrapper />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
