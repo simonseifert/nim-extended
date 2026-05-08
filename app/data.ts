@@ -56,6 +56,36 @@ type SocialLink = {
   link: string
 }
 
+// Announcement chip shown above the hero headline. Set to `null` to hide.
+type Announcement = {
+  label: string
+  link?: string
+}
+
+// Hero CTA button.
+type CTA = {
+  label: string
+  link: string
+}
+
+// Logo cloud entry — "Worked with" / "Featured in".
+type Logo = {
+  name: string
+  // Either a path/URL to an image, or short text used as a wordmark fallback.
+  src?: string
+  href?: string
+}
+
+// Bottom CTA section — final call-to-action above the footer. Set to `null` to hide.
+type BottomCTAContent = {
+  chip?: string
+  title: string
+  subtitle: string
+  primary: CTA
+  secondary?: CTA
+  microcopy?: string
+}
+
 export const PROJECTS: Project[] = [
   {
     name: 'Project One',
@@ -190,9 +220,44 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const EMAIL = 'you@example.com'
 
-export const HERO_CONTENT = {
+// Set `announcement: null` to hide the chip. CTAs are optional too.
+export const HERO_CONTENT: {
+  name: string
+  title: string
+  intro: string
+  metrics: typeof METRICS
+  announcement: Announcement | null
+  ctaPrimary?: CTA
+  ctaSecondary?: CTA
+} = {
   name: 'Your Name',
   title: 'Your title — e.g. Designer & Engineer',
   intro: `A two-or-three-sentence pitch for who you are and what you do. Make it specific. Mention the kind of problem you solve and who you solve it for. The reader should know within a few seconds whether they want to keep reading.`,
   metrics: METRICS,
+  announcement: { label: 'Announcing: a thing I shipped', link: '#' },
+  ctaPrimary: { label: 'Get in touch', link: '#contact' },
+  ctaSecondary: { label: 'Learn more', link: '#about' },
+}
+
+// Logo cloud — "Worked with" / "Featured in" section.
+// Use `src` for an image path, or omit it to render `name` as a wordmark.
+export const LOGOS: Logo[] = [
+  { name: 'Company One' },
+  { name: 'Company Two' },
+  { name: 'Company Three' },
+  { name: 'Company Four' },
+  { name: 'Company Five' },
+  { name: 'Company Six' },
+]
+
+export const LOGOS_HEADING = 'Worked with'
+
+// Bottom CTA shown before the footer. Set to `null` to hide.
+export const BOTTOM_CTA: BottomCTAContent | null = {
+  chip: 'Available for work',
+  title: 'Want to work together?',
+  subtitle: 'Tell me what you’re building. I reply to every email within 24 hours.',
+  primary: { label: 'Get in touch', link: '#contact' },
+  secondary: { label: 'See projects', link: '#projects' },
+  microcopy: 'No pitch decks required.',
 }
